@@ -17,3 +17,7 @@ Route::get('/', function () {
     $app = env('APP_NAME', 'Nothing found');
     return view('welcome', ['app' => $app]);
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
