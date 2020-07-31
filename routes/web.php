@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $app = env('APP_NAME', 'Nothing found');
-    return view('welcome', ['app' => $app]);
+    return view('welcome');
 });
 
 Auth::routes();
