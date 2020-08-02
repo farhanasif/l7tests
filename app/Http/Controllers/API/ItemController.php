@@ -90,7 +90,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
 
         $this->validate($request,[
-            'name' => 'required|string|max:191|unique:items',
+            //'name' => 'required|string|max:191|unique:items',
             'category' => 'required|string|max:191'
         ]);
 

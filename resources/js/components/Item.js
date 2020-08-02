@@ -21,7 +21,8 @@ const Toast = MySwal.mixin({
 })
 
 export default function Item () {
-    const { items, dispatch } = useContext(ItemContext);
+    const { items, dispatch, refreshContent } = useContext(ItemContext);
+    const [id, setId] = useState(0);
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [formerror, setFormerror] = useState(false);
@@ -34,35 +35,73 @@ export default function Item () {
         }
         else{
             e.preventDefault();
-    
-            await fetch('http://localhost:8000/api/items', {
-                method: 'POST',
-                headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    category: category
+            if(edit){
+                //edit the item
+                await fetch('http://localhost:8000/api/items/'+id, {
+                    method: 'PUT',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        category: category
+                    })
+                }).then((response) => response.json())
+                .then((json) => {
+                    console.log(json)
+                    //refresh the table
+                    //refreshContent();
+                    dispatch({ type: 'UPDATE_ITEM', item: { name, id, category}});
+                    setName('');
+                    setCategory('');
+                    setId(0)
+                    setEdit(false)
+                    setFormerror(false)
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Item updated successfully'
+                    })
                 })
-            }).then((response) => response.json())
-            .then((json) => {
-                //console.log(json)
-                const id = json.id;
-                const created_at = json.created_at;
-                dispatch({ type: 'ADD_ITEM', item: { name, id, category, created_at}});
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                .catch((error) => {
+                    console.error(error);
+                });
+                
+                
+            }
+            else{
+                //insert item
+                await fetch('http://localhost:8000/api/items', {
+                    method: 'POST',
+                    headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        category: category
+                    })
+                }).then((response) => response.json())
+                .then((json) => {
+                    //console.log(json)
+                    const id = json.id;
+                    const created_at = json.created_at;
+                    dispatch({ type: 'ADD_ITEM', item: { name, id, category, created_at}});
+                    setName('');
+                    setCategory('');
+                    setId(0)
+                    setEdit(false)
+                    setFormerror(false)
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Item added successfully'
+                    })
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            }
             
-            setName('');
-            setCategory('');
-            setFormerror(false)
-            Toast.fire({
-                icon: 'success',
-                title: 'Item added successfully'
-            })
             $('#exampleModal').modal('hide')
         }
         
@@ -113,6 +152,7 @@ export default function Item () {
                                         <td>{moment(item.created_at).format('MMM Do YY, h:mm:ss a')}</td>
                                         <td>
                                             <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
+                                                setId(item.id)
                                                 setName(item.name)
                                                 setCategory(item.category)
                                                 setEdit(true)

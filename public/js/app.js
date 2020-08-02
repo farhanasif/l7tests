@@ -102350,27 +102350,33 @@ var Toast = MySwal.mixin({
 function Item() {
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_1__["useContext"])(_contexts_ItemContext__WEBPACK_IMPORTED_MODULE_2__["ItemContext"]),
       items = _useContext.items,
-      dispatch = _useContext.dispatch;
+      dispatch = _useContext.dispatch,
+      refreshContent = _useContext.refreshContent;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(0),
       _useState2 = _slicedToArray(_useState, 2),
-      name = _useState2[0],
-      setName = _useState2[1];
+      id = _useState2[0],
+      setId = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      category = _useState4[0],
-      setCategory = _useState4[1];
+      name = _useState4[0],
+      setName = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      formerror = _useState6[0],
-      setFormerror = _useState6[1];
+      category = _useState6[0],
+      setCategory = _useState6[1];
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      edit = _useState8[0],
-      setEdit = _useState8[1]; //console.log(items);
+      formerror = _useState8[0],
+      setFormerror = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      edit = _useState10[0],
+      setEdit = _useState10[1]; //console.log(items);
 
 
   var handleSubmit = /*#__PURE__*/function () {
@@ -102385,12 +102391,61 @@ function Item() {
               }
 
               setFormerror(true);
-              _context.next = 12;
+              _context.next = 13;
               break;
 
             case 4:
               e.preventDefault();
-              _context.next = 7;
+
+              if (!edit) {
+                _context.next = 10;
+                break;
+              }
+
+              _context.next = 8;
+              return fetch('http://localhost:8000/api/items/' + id, {
+                method: 'PUT',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  name: name,
+                  category: category
+                })
+              }).then(function (response) {
+                return response.json();
+              }).then(function (json) {
+                console.log(json); //refresh the table
+                //refreshContent();
+
+                dispatch({
+                  type: 'UPDATE_ITEM',
+                  item: {
+                    name: name,
+                    id: id,
+                    category: category
+                  }
+                });
+                setName('');
+                setCategory('');
+                setId(0);
+                setEdit(false);
+                setFormerror(false);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Item updated successfully'
+                });
+              })["catch"](function (error) {
+                console.error(error);
+              });
+
+            case 8:
+              _context.next = 12;
+              break;
+
+            case 10:
+              _context.next = 12;
               return fetch('http://localhost:8000/api/items', {
                 method: 'POST',
                 headers: {
@@ -102416,21 +102471,23 @@ function Item() {
                     created_at: created_at
                   }
                 });
+                setName('');
+                setCategory('');
+                setId(0);
+                setEdit(false);
+                setFormerror(false);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Item added successfully'
+                });
               })["catch"](function (error) {
                 console.error(error);
               });
 
-            case 7:
-              setName('');
-              setCategory('');
-              setFormerror(false);
-              Toast.fire({
-                icon: 'success',
-                title: 'Item added successfully'
-              });
+            case 12:
               $('#exampleModal').modal('hide');
 
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
@@ -102494,6 +102551,7 @@ function Item() {
       icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faEdit"],
       color: "blue",
       onClick: function onClick() {
+        setId(item.id);
         setName(item.name);
         setCategory(item.category);
         setEdit(true);
@@ -102710,11 +102768,11 @@ var ItemContextProvider = function ItemContextProvider(props) {
       dispatch = _useReducer2[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    refreshContent();
+    refreshContent(1);
   }, []);
 
   var refreshContent = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(val) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -102727,10 +102785,18 @@ var ItemContextProvider = function ItemContextProvider(props) {
 
                 if (result.data.length > 0) {
                   var data = result.data;
-                  dispatch({
-                    type: "INIT",
-                    data: data
-                  });
+
+                  if (val == 1) {
+                    dispatch({
+                      type: "INIT",
+                      data: data
+                    });
+                  } else {
+                    dispatch({
+                      type: "RELOAD",
+                      data: data
+                    });
+                  }
                 } else {
                   return [];
                 }
@@ -102744,7 +102810,7 @@ var ItemContextProvider = function ItemContextProvider(props) {
       }, _callee);
     }));
 
-    return function refreshContent() {
+    return function refreshContent(_x) {
       return _ref.apply(this, arguments);
     };
   }();
@@ -102812,6 +102878,15 @@ var itemReducer = function itemReducer() {
       } else {
         return [];
       }
+
+    case 'UPDATE_ITEM':
+      var objIndex = state.findIndex(function (obj) {
+        return obj.id == action.item.id;
+      });
+      state[objIndex].name = action.item.name;
+      state[objIndex].category = action.item.category; //state.find(v => v.id == action.item.id).name = action.item.name;
+
+      return state;
 
     default:
       return state;
