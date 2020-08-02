@@ -102505,6 +102505,57 @@ function Item() {
     $('#exampleModal').modal('show');
   };
 
+  var handleDelete = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(itemid) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!itemid) {
+                _context2.next = 3;
+                break;
+              }
+
+              _context2.next = 3;
+              return fetch('http://localhost:8000/api/items/' + itemid, {
+                method: 'DELETE',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              }).then(function () {
+                dispatch({
+                  type: 'REMOVE_ITEM',
+                  item: {
+                    itemid: itemid
+                  }
+                });
+                setName('');
+                setCategory('');
+                setId(0);
+                setEdit(false);
+                setFormerror(false);
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Item deleted successfully'
+                });
+              })["catch"](function (error) {
+                console.error(error);
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function handleDelete(_x2) {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -102559,7 +102610,10 @@ function Item() {
       }
     }), " | ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_6__["FontAwesomeIcon"], {
       icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_7__["faTrash"],
-      color: "red"
+      color: "red",
+      onClick: function onClick() {
+        return handleDelete(item.id);
+      }
     })));
   }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "No item found")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "modal fade",
@@ -102768,11 +102822,11 @@ var ItemContextProvider = function ItemContextProvider(props) {
       dispatch = _useReducer2[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
-    refreshContent(1);
+    refreshContent();
   }, []);
 
   var refreshContent = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(val) {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -102785,18 +102839,10 @@ var ItemContextProvider = function ItemContextProvider(props) {
 
                 if (result.data.length > 0) {
                   var data = result.data;
-
-                  if (val == 1) {
-                    dispatch({
-                      type: "INIT",
-                      data: data
-                    });
-                  } else {
-                    dispatch({
-                      type: "RELOAD",
-                      data: data
-                    });
-                  }
+                  dispatch({
+                    type: "INIT",
+                    data: data
+                  });
                 } else {
                   return [];
                 }
@@ -102810,7 +102856,7 @@ var ItemContextProvider = function ItemContextProvider(props) {
       }, _callee);
     }));
 
-    return function refreshContent(_x) {
+    return function refreshContent() {
       return _ref.apply(this, arguments);
     };
   }();
@@ -102869,7 +102915,7 @@ var itemReducer = function itemReducer() {
 
     case 'REMOVE_ITEM':
       return state.filter(function (item) {
-        return item.id !== action.id;
+        return item.id !== action.item.itemid;
       });
 
     case 'INIT':

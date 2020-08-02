@@ -113,6 +113,36 @@ export default function Item () {
         $('#exampleModal').modal('show')
     }
 
+    const handleDelete = async(itemid) => {
+        if(itemid){
+            //edit the item
+            await fetch('http://localhost:8000/api/items/'+itemid, {
+                method: 'DELETE',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                dispatch({ type: 'REMOVE_ITEM', item: { itemid }});
+                setName('');
+                setCategory('');
+                setId(0)
+                setEdit(false)
+                setFormerror(false)
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Item deleted successfully'
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+            
+            
+        }
+    }
+
 
     return (
         <div className="row">
@@ -157,7 +187,7 @@ export default function Item () {
                                                 setCategory(item.category)
                                                 setEdit(true)
                                                 $('#exampleModal').modal('show')
-                                            }}/> | <FontAwesomeIcon icon={faTrash} color="red"/></td>
+                                            }}/> | <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(item.id)}/></td>
                                     </tr>
                                     );
                                     })}

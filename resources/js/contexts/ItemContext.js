@@ -9,23 +9,17 @@ const ItemContextProvider = (props) => {
   const [items, dispatch] = useReducer(itemReducer, []);
   
   useEffect(() => {
-    refreshContent(1);
+    refreshContent();
   }, []);
 
-  const refreshContent = async(val) => {
+  const refreshContent = async() => {
     await fetch(geturl)
       .then(res => res.json())
       .then((result) => {
         console.log(result.data);
         if(result.data.length > 0){
           const data = result.data;
-          if(val == 1){
-            dispatch({type: "INIT", data});
-          }
-          else{
-            dispatch({type: "RELOAD", data});
-          }
-          
+          dispatch({type: "INIT", data});
         }
         else{
           return [];

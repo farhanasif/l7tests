@@ -14,7 +14,7 @@ export const itemReducer = (state = [], action) => {
         });
       
       case 'REMOVE_ITEM':
-        return state.filter(item => item.id !== action.id);
+        return state.filter(item => item.id !== action.item.itemid);
       case 'INIT':
         if(action.data){
           return [...state, ...action.data];
