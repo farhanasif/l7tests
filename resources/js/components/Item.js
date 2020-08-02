@@ -3,6 +3,8 @@ import { ItemContext } from '../contexts/ItemContext';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const MySwal = withReactContent(Swal)
 
@@ -23,6 +25,7 @@ export default function Item () {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
     const [formerror, setFormerror] = useState(false);
+    const [edit, setEdit] = useState(false);
     //console.log(items);
 
     const handleSubmit = async(e) => {
@@ -67,6 +70,7 @@ export default function Item () {
     }
 
     const openModal = () => {
+        setEdit(false)
         $('#exampleModal').modal('show')
     }
 
@@ -82,7 +86,7 @@ export default function Item () {
                             </div>
                             <div className="ml-md-auto">
                             <button type="button" className="btn btn-primary" onClick={openModal}>
-                                Add New
+                                New <FontAwesomeIcon icon={faPlus} color="white"/>
                             </button>
                             </div>
                         </div>
@@ -107,7 +111,13 @@ export default function Item () {
                                         <td>{item.name}</td>
                                         <td>{item.category}</td>
                                         <td>{moment(item.created_at).format('MMM Do YY, h:mm:ss a')}</td>
-                                        <td>Edit / Delete</td>
+                                        <td>
+                                            <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
+                                                setName(item.name)
+                                                setCategory(item.category)
+                                                setEdit(true)
+                                                $('#exampleModal').modal('show')
+                                            }}/> | <FontAwesomeIcon icon={faTrash} color="red"/></td>
                                     </tr>
                                     );
                                     })}
@@ -124,7 +134,7 @@ export default function Item () {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Add an Item</h5>
+                        <h5 className="modal-title" id="exampleModalLabel">{edit ? 'Edit Item' : 'Add an Item'}</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -163,7 +173,7 @@ export default function Item () {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
+                        <button type="button" className="btn btn-primary" onClick={handleSubmit}>{edit ? 'Edit Changes' : 'Save Changes'}</button>
                     </div>
                     </div>
                 </div>

@@ -87,7 +87,15 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        $this->validate($request,[
+            'name' => 'required|string|max:191|unique:items',
+            'category' => 'required|string|max:191'
+        ]);
+
+        $item->update($request->all());
+        return ['message' => 'Updated the item info'];
     }
 
     /**

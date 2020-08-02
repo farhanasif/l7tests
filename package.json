@@ -25,6 +25,9 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.30",
+        "@fortawesome/free-solid-svg-icons": "^5.14.0",
+        "@fortawesome/react-fontawesome": "^0.1.11",
         "moment": "^2.27.0",
         "sweetalert2": "^9.17.1",
         "sweetalert2-react-content": "^3.0.3"

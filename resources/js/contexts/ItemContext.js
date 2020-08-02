@@ -9,9 +9,11 @@ const ItemContextProvider = (props) => {
   const [items, dispatch] = useReducer(itemReducer, []);
   
   useEffect(() => {
-    //console.log('----------useEffect-------------')
-    async function fetchData(){
-      await fetch(geturl)
+    refreshContent();
+  }, []);
+
+  const refreshContent = async() => {
+    await fetch(geturl)
       .then(res => res.json())
       .then((result) => {
         console.log(result.data);
@@ -23,11 +25,10 @@ const ItemContextProvider = (props) => {
           return [];
         }
       });
-    }
-    fetchData();
-  }, []);
+  }
+
   return (
-    <ItemContext.Provider value={{ items, dispatch }}>
+    <ItemContext.Provider value={{ items, dispatch, refreshContent }}>
       {props.children}
     </ItemContext.Provider>
   );
