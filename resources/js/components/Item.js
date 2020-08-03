@@ -75,6 +75,8 @@ export default function Item () {
           }
     ];
 
+    
+
     const handleSubmit = async(e) => {
         if(name === '' || category === ''){
             setFormerror(true)
@@ -208,7 +210,15 @@ export default function Item () {
                     </div>
                     <div className="card-body">
                         {items ? (
-                            <BootstrapTable bootstrap4 keyField='id' data={ items } columns={ columns } pagination={ paginationFactory() } />
+                            <BootstrapTable 
+                                bootstrap4 
+                                keyField='id' 
+                                data={ items } 
+                                columns={ columns } 
+                                striped
+                                hover
+                                condensed
+                                pagination={ paginationFactory() } />
                             // <table className="table table-striped table-bordered">
                             //     <thead>
                             //         <tr>

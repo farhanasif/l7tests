@@ -17,7 +17,10 @@ export const itemReducer = (state = [], action) => {
         return state.filter(item => item.id !== action.item.itemid);
       case 'INIT':
         if(action.data){
-          return [...state, ...action.data];
+          const newstate = action.data.sort(function(a, b) { 
+            return (b.id - a.id); 
+          });
+          return [...state, ...newstate];
         }
         else{
           return [];

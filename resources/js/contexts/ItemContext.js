@@ -16,9 +16,9 @@ const ItemContextProvider = (props) => {
     await fetch(geturl)
       .then(res => res.json())
       .then((result) => {
-        console.log(result.data);
-        if(result.data.length > 0){
-          const data = result.data;
+        console.log(result);
+        if(result.length > 0){
+          const data = result;
           dispatch({type: "INIT", data});
         }
         else{
