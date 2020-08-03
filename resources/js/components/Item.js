@@ -27,26 +27,6 @@ function dateFormatter(cell, row){
     return moment(cell).format('MMM Do YY, h:mm:ss a');
 }
 
-const columns = [
-    {
-        dataField: 'id',
-        text: 'ID'
-    }, 
-    {
-        dataField: 'name',
-        text: 'Item Name'
-    },
-    {
-        dataField: 'category',
-        text: 'Item Category'
-    },
-    {
-        dataField: 'created_at',
-        text: 'Created At',
-        formatter: dateFormatter
-    },
-];
-
 
 export default function Item () {
     const { items, dispatch, refreshContent } = useContext(ItemContext);
@@ -57,6 +37,43 @@ export default function Item () {
     const [edit, setEdit] = useState(false);
     //console.log(items);
     
+    const columns = [
+        {
+            dataField: 'id',
+            text: 'ID'
+        }, 
+        {
+            dataField: 'name',
+            text: 'Item Name'
+        },
+        {
+            dataField: 'category',
+            text: 'Item Category'
+        },
+        {
+            dataField: 'created_at',
+            text: 'Created At',
+            formatter: dateFormatter
+        },
+        {
+            dataField: 'df1',
+            isDummyField: true,
+            text: 'Action',
+            formatter: (cellContent, row) => {
+              return (
+                  <span>
+                      <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
+                            setId(row.id)
+                            setName(row.name)
+                            setCategory(row.category)
+                            setEdit(true)
+                            $('#exampleModal').modal('show')
+                        }}/> | <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(row.id)}/>
+                  </span>
+              )
+            }
+          }
+    ];
 
     const handleSubmit = async(e) => {
         if(name === '' || category === ''){
