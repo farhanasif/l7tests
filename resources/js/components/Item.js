@@ -5,6 +5,9 @@ import withReactContent from 'sweetalert2-react-content'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+
 
 const MySwal = withReactContent(Swal)
 
@@ -20,6 +23,31 @@ const Toast = MySwal.mixin({
     }
 })
 
+function dateFormatter(cell, row){
+    return moment(cell).format('MMM Do YY, h:mm:ss a');
+}
+
+const columns = [
+    {
+        dataField: 'id',
+        text: 'ID'
+    }, 
+    {
+        dataField: 'name',
+        text: 'Item Name'
+    },
+    {
+        dataField: 'category',
+        text: 'Item Category'
+    },
+    {
+        dataField: 'created_at',
+        text: 'Created At',
+        formatter: dateFormatter
+    },
+];
+
+
 export default function Item () {
     const { items, dispatch, refreshContent } = useContext(ItemContext);
     const [id, setId] = useState(0);
@@ -28,6 +56,7 @@ export default function Item () {
     const [formerror, setFormerror] = useState(false);
     const [edit, setEdit] = useState(false);
     //console.log(items);
+    
 
     const handleSubmit = async(e) => {
         if(name === '' || category === ''){
@@ -162,37 +191,38 @@ export default function Item () {
                     </div>
                     <div className="card-body">
                         {items ? (
-                            <table className="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Created</th>
-                                    <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {items.map(item => {
-                                    return (
-                                        <tr key={item.id}>
-                                        <th scope="row">{item.id}</th>
-                                        <td>{item.name}</td>
-                                        <td>{item.category}</td>
-                                        <td>{moment(item.created_at).format('MMM Do YY, h:mm:ss a')}</td>
-                                        <td>
-                                            <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
-                                                setId(item.id)
-                                                setName(item.name)
-                                                setCategory(item.category)
-                                                setEdit(true)
-                                                $('#exampleModal').modal('show')
-                                            }}/> | <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(item.id)}/></td>
-                                    </tr>
-                                    );
-                                    })}
-                                </tbody>
-                            </table>
+                            <BootstrapTable bootstrap4 keyField='id' data={ items } columns={ columns } pagination={ paginationFactory() } />
+                            // <table className="table table-striped table-bordered">
+                            //     <thead>
+                            //         <tr>
+                            //         <th scope="col">#</th>
+                            //         <th scope="col">Name</th>
+                            //         <th scope="col">Category</th>
+                            //         <th scope="col">Created</th>
+                            //         <th scope="col">Action</th>
+                            //         </tr>
+                            //     </thead>
+                            //     <tbody>
+                            //         {items.map(item => {
+                            //         return (
+                            //             <tr key={item.id}>
+                            //             <th scope="row">{item.id}</th>
+                            //             <td>{item.name}</td>
+                            //             <td>{item.category}</td>
+                            //             <td>{moment(item.created_at).format('MMM Do YY, h:mm:ss a')}</td>
+                            //             <td>
+                            //                 <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
+                            //                     setId(item.id)
+                            //                     setName(item.name)
+                            //                     setCategory(item.category)
+                            //                     setEdit(true)
+                            //                     $('#exampleModal').modal('show')
+                            //                 }}/> | <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(item.id)}/></td>
+                            //         </tr>
+                            //         );
+                            //         })}
+                            //     </tbody>
+                            // </table>
                         ) : (
                             <p>No item found</p>
                         )}
