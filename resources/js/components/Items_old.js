@@ -7,10 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit';
-
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
 
 
 const MySwal = withReactContent(Swal)
@@ -214,31 +210,46 @@ export default function Item () {
                     </div>
                     <div className="card-body">
                         {items ? (
-                            <ToolkitProvider
-                                keyField="id"
-                                data={ items }
-                                columns={ columns }
-                                search
-                                
-                            >
-                                {
-                                props => (
-                                    <div>
-                                    <SearchBar { ...props.searchProps } />
-                                    <ClearSearchButton { ...props.searchProps } />
-                                    <BootstrapTable
-                                        bootstrap4
-                                        striped
-                                        hover
-                                        condensed
-                                        pagination={ paginationFactory()}
-                                        { ...props.baseProps }
-                                    />
-                                    <ExportCSVButton { ...props.csvProps }>Export CSV!!</ExportCSVButton>
-                                    </div>
-                                )
-                                }
-                            </ToolkitProvider>
+                            <BootstrapTable 
+                                bootstrap4 
+                                keyField='id' 
+                                data={ items } 
+                                columns={ columns } 
+                                striped
+                                hover
+                                condensed
+                                pagination={ paginationFactory() } />
+                            // <table className="table table-striped table-bordered">
+                            //     <thead>
+                            //             <td>{item.category}</td>
+                            //             <td>{moment(item.created_at).format('MMM Do YY, h:mm:ss a')}</td>
+                            //             <td>
+                            //                 <FontAwesomeIcon icon={faEdit} color="blue" onClick={() => {
+                            //                     setId(item.id)
+                            //                     setName(item.name)
+                            //                     setCategory(item.category)
+                            //                     setEdit(true)
+                            //                     $('#exampleModal').modal('show')
+                            //                 }}/> | <FontAwesomeIcon icon={faTrash} color="red" onClick={() => handleDelete(item.id)}/></td>
+                            //         </tr>
+                            //         );
+                            //         })}
+                            //     </tbody>
+                            // </table> //         <tr>
+                            //         <th scope="col">#</th>
+                            //         <th scope="col">Name</th>
+                            //         <th scope="col">Category</th>
+                            //         <th scope="col">Created</th>
+                            //         <th scope="col">Action</th>
+                            //         </tr>
+                            //     </thead>
+                            //     <tbody>
+                            //         {items.map(item => {
+                            //         return (
+                            //             <tr key={item.id}>
+                            //             <th scope="row">{item.id}</th>
+                            //             <td>{item.name}</td>
+                           
                         ) : (
                             <p>No item found</p>
                         )}
