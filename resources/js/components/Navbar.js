@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 export default function Navbar () {
     return (
@@ -11,22 +12,16 @@ export default function Navbar () {
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="../help/">About</a>
+                            <Link to="/" className="nav-link active">Dashboard</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="https://blog.bootswatch.com">Items</a>
+                            <Link to="/items" className="nav-link active">Items</Link>
                         </li>
-                        <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Drop menu <span className="caret"></span></a>
-                        <div className="dropdown-menu" aria-labelledby="download">
-                            <a className="dropdown-item" target="_blank" href="https://jsfiddle.net/bootswatch/9y480qo5/">Open in JSFiddle</a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="../4/cerulean/bootstrap.min.css" download>bootstrap.min.css</a>
-                            <a className="dropdown-item" href="../4/cerulean/bootstrap.css" download>bootstrap.css</a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="../4/cerulean/_variables.scss" download>_variables.scss</a>
-                            <a className="dropdown-item" href="../4/cerulean/_bootswatch.scss" download>_bootswatch.scss</a>
-                        </div>
+                        <li className="nav-item">
+                            <Link to="/signin" className="nav-link active">Signin</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/signup" className="nav-link active">Signup</Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav ml-md-auto">
