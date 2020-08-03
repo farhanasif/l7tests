@@ -161,6 +161,9 @@ export default function Item () {
     }
 
     const openModal = () => {
+        setName('');
+        setCategory('');
+        setId(0)
         setEdit(false)
         $('#exampleModal').modal('show')
     }
@@ -225,7 +228,10 @@ export default function Item () {
                                 props => (
                                     <div>
                                     <SearchBar { ...props.searchProps } />
-                                    <ClearSearchButton { ...props.searchProps } />
+                                    <ClearSearchButton
+                                     className="btn btn-outline-secondary ml-2"
+                                     { ...props.searchProps } />
+                                    <ExportCSVButton className="btn btn-outline-secondary ml-2" { ...props.csvProps }>Export CSV!!</ExportCSVButton>
                                     <BootstrapTable
                                         bootstrap4
                                         striped
@@ -234,7 +240,6 @@ export default function Item () {
                                         pagination={ paginationFactory()}
                                         { ...props.baseProps }
                                     />
-                                    <ExportCSVButton { ...props.csvProps }>Export CSV!!</ExportCSVButton>
                                     </div>
                                 )
                                 }
