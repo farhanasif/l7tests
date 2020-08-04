@@ -3,10 +3,10 @@ import { NavLink, Link } from 'react-router-dom';
 
 function SignOutLinks() {
     return (
-        <div>
-            <ul className="navbar-nav">
+        <div className="collapse navbar-collapse" id="navbarResponsive">
+            <ul className="navbar-nav mr-auto">
             </ul>
-            <ul className="navbar-nav ml-md-auto">
+            <ul className="navbar-nav">
                 <li className="nav-item">
                     <Link to="/signin" className="nav-link active">Login</Link>
                 </li>

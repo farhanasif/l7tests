@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 function SignInLinks() {
     return (
-        <div>
+        <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav">
                 <li className="nav-item">
                     <Link to="/" className="nav-link active">Dashboard</Link>

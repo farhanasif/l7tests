@@ -10,29 +10,55 @@ import AuthContextProvider from '../contexts/AuthContext';
 import {
     BrowserRouter,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 
+
+const isAuthenticated = false;
+
+function PrivateRoute({ children, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          isAuthenticated ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/signin",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+}
 
 export default function App () {
     return (
         <BrowserRouter>
             <AuthContextProvider>
-            <div className="App">
-                <Navbar />
-                <div className="container">
-                    <Switch>
-                        <Route exact path="/" component={Dashboard} />
-                        <Route path="/signin" component={SignIn} />
-                        <Route path="/signup" component={SignUp} />
-                        <ItemContextProvider>
-                            <Route path="/items" component={Item}/>
-                        </ItemContextProvider>
-                        
-                    </Switch>
+                <div className="App">
+                    <Navbar />
+                    <div className="container">
+                        <Switch>
+                            <Route path="/signin" component={SignIn} />
+                            <Route path="/signup" component={SignUp} /> 
+                            <PrivateRoute path="/items">
+                                <ItemContextProvider>
+                                    <Item />
+                                </ItemContextProvider>
+                            </PrivateRoute>
+                            <PrivateRoute path="/">
+                                <Dashboard />
+                            </PrivateRoute>
+                        </Switch>
+                    </div>
+                    
                 </div>
-                
-            </div>
             </AuthContextProvider>
         </BrowserRouter>
         // <div>
