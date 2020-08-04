@@ -5,11 +5,11 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
   //const [user, dispatch] = useReducer(authReducer, []);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState('');
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser }}>
       {props.children}
     </AuthContext.Provider>
   );

@@ -15,6 +15,7 @@ import {
     Redirect
 } from "react-router-dom";
 import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoutes'
 
 export default function App () {
     return (
@@ -24,8 +25,12 @@ export default function App () {
                     <Navbar />
                     <div className="container">
                         <Switch>
-                            <Route path="/signin" component={SignIn} />
-                            <Route path="/signup" component={SignUp} /> 
+                            
+                            <Route path="/signup" component={SignUp} />
+                           
+                            <PublicRoute path="/signin">
+                                <SignIn />
+                            </PublicRoute>
                             <PrivateRoute path="/items">
                                 <ItemContextProvider>
                                     <Item />
