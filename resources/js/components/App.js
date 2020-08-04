@@ -7,35 +7,14 @@ import SignUp from './SignUp';
 import Item from './Item';
 import ItemContextProvider from '../contexts/ItemContext';
 import AuthContextProvider from '../contexts/AuthContext';
+
 import {
     BrowserRouter,
     Switch,
     Route,
     Redirect
 } from "react-router-dom";
-
-
-const isAuthenticated = false;
-
-function PrivateRoute({ children, ...rest }) {
-    return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          isAuthenticated ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/signin",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
-    );
-}
+import PrivateRoute from './PrivateRoute'
 
 export default function App () {
     return (
@@ -52,7 +31,7 @@ export default function App () {
                                     <Item />
                                 </ItemContextProvider>
                             </PrivateRoute>
-                            <PrivateRoute path="/">
+                            <PrivateRoute path="/" > 
                                 <Dashboard />
                             </PrivateRoute>
                         </Switch>
@@ -61,14 +40,6 @@ export default function App () {
                 </div>
             </AuthContextProvider>
         </BrowserRouter>
-        // <div>
-        //     <Navbar />
-        //     <div className="container">
-        //         <ItemContextProvider>
-        //             <Item />
-        //         </ItemContextProvider>
-        //     </div>
-        // </div>
        
     )
 }
