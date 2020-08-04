@@ -5,13 +5,12 @@ import { AuthContext } from '../../contexts/AuthContext'
 
 
 function SignInLinks() {
-    const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(AuthContext);
+    const { isAuthenticated, setIsAuthenticated, user, setUser, userLogout } = useContext(AuthContext);
     let history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsAuthenticated(false)
-        setUser('')
+        userLogout();
         history.push("/signin")
     }
 
@@ -26,9 +25,9 @@ function SignInLinks() {
                 </li>
             </ul>
             <ul className="navbar-nav ml-md-auto">
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" id="themes">{user} <span class="caret"></span></a>
-                <div class="dropdown-menu" aria-labelledby="themes">
+                <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" id="themes">{user} <span className="caret"></span></a>
+                <div className="dropdown-menu" aria-labelledby="themes">
                     <Link to="#" className="dropdown-item" onClick={handleSubmit}>Logout</Link>
                 </div>
                 </li>

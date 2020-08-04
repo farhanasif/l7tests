@@ -5,12 +5,12 @@ import { AuthContext } from '../contexts/AuthContext'
 const PublicRoute = ({ children, ...rest }) => {
 
     const { isAuthenticated } = useContext(AuthContext)
-    console.log(isAuthenticated)
+    console.log('public---',isAuthenticated)
     return (
         <Route
           {...rest}
           render={({ location }) =>
-            isAuthenticated ? (
+            isAuthenticated === 'true' ? (
                 <Redirect
                 to={{
                   pathname: "/",

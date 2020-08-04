@@ -3,14 +3,14 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from '../contexts/AuthContext';
 
 function SignIn() {
-    const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(AuthContext);
+    const { isAuthenticated, setIsAuthenticated, user, setUser, userLogin } = useContext(AuthContext);
     let history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsAuthenticated(true)
-        setUser('Tommy')
+        userLogin()
         history.push("/")
+        
     }
 
     return (

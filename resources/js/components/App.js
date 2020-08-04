@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import SignIn from './SingIn';
 import SignUp from './SignUp';
 import Item from './Item';
+import NotFound from './pages/NotFound';
 import ItemContextProvider from '../contexts/ItemContext';
 import AuthContextProvider from '../contexts/AuthContext';
 
@@ -25,9 +26,7 @@ export default function App () {
                     <Navbar />
                     <div className="container">
                         <Switch>
-                            
                             <Route path="/signup" component={SignUp} />
-                           
                             <PublicRoute path="/signin">
                                 <SignIn />
                             </PublicRoute>
@@ -39,6 +38,9 @@ export default function App () {
                             <PrivateRoute path="/" > 
                                 <Dashboard />
                             </PrivateRoute>
+                            <Route path="*">
+                                <NotFound />
+                            </Route>
                         </Switch>
                     </div>
                     
