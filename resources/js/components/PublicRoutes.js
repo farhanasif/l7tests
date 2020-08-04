@@ -10,7 +10,7 @@ const PublicRoute = ({ children, ...rest }) => {
         <Route
           {...rest}
           render={({ location }) =>
-            isAuthenticated === 'true' ? (
+            isAuthenticated == 'true' ? (
                 <Redirect
                 to={{
                   pathname: "/",
