@@ -29,38 +29,45 @@ function SignIn() {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        //edit the item
-        await fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
+        if(email == '' || password == ''){
+            Toast.fire({
+                icon: 'error',
+                title: 'Email and password must be given to login'
             })
-        }).then((response) => response.json())
-        .then((json) => {
-            if(json.message == 'E'){
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Email or password does not match'
+        }
+        else{
+            await fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
                 })
-            }
-            else{
-                userLogin(json.message)
-                history.push("/")
-                let msg = "Welcome " + json.message.name
-                Toast.fire({
-                    icon: 'success',
-                    title: msg
-                })
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            }).then((response) => response.json())
+            .then((json) => {
+                if(json.message == 'E'){
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Email or password does not match'
+                    })
+                }
+                else{
+                    userLogin(json.message)
+                    history.push("/")
+                    let msg = "Welcome " + json.message.name
+                    Toast.fire({
+                        icon: 'success',
+                        title: msg
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }
     }
 
     return (

@@ -33,50 +33,58 @@ function SignUp() {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        //edit the item
-        await fetch('http://localhost:8000/api/register', {
-            method: 'POST',
-            headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                name: name
+        if(email == '' || password == '' || name == ''){
+            Toast.fire({
+                icon: 'error',
+                title: 'All fields are necessary to Register'
             })
-        }).then((response) => response.json())
-        .then((json) => {
-            console.log(json)
-            if(json.errors){
-                let msg = "";
-                if(json.errors.email) setEmailError(json.errors.email)
-                else setEmailError('')
-
-                if(json.errors.name) setNameError(json.errors.name)
-                else setNameError('')
-
-                if(json.errors.password) setPasswordError(json.errors.password)
-                else setPasswordError('')
-
-                Toast.fire({
-                    icon: 'error',
-                    title: json.message
+        }
+        else{
+            await fetch('http://localhost:8000/api/register', {
+                method: 'POST',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    name: name
                 })
-            }
-            else{
-                userLogin(json)
-                history.push("/")
-                let msg = "Welcome " + json.name
-                Toast.fire({
-                    icon: 'success',
-                    title: msg
-                })
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            }).then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                if(json.errors){
+                    let msg = "";
+                    if(json.errors.email) setEmailError(json.errors.email)
+                    else setEmailError('')
+
+                    if(json.errors.name) setNameError(json.errors.name)
+                    else setNameError('')
+
+                    if(json.errors.password) setPasswordError(json.errors.password)
+                    else setPasswordError('')
+
+                    Toast.fire({
+                        icon: 'error',
+                        title: json.message
+                    })
+                }
+                else{
+                    userLogin(json)
+                    history.push("/")
+                    let msg = "Welcome " + json.name
+                    Toast.fire({
+                        icon: 'success',
+                        title: msg
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }
+        
     }
 
     return (
