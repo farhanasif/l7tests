@@ -23,8 +23,11 @@ function SignUp() {
     let history = useHistory();
 
     const [name, setName] = useState('');
+    const [nameError, setNameError] = useState('');
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
 
 
@@ -47,13 +50,18 @@ function SignUp() {
             console.log(json)
             if(json.errors){
                 let msg = "";
-                if(json.errors.email) msg += " * "+json.errors.email
-                if(json.errors.name) msg += " * "+json.errors.name
-                if(json.errors.password) msg += " * "+json.errors.password
+                if(json.errors.email) setEmailError(json.errors.email)
+                else setEmailError('')
+
+                if(json.errors.name) setNameError(json.errors.name)
+                else setNameError('')
+
+                if(json.errors.password) setPasswordError(json.errors.password)
+                else setPasswordError('')
 
                 Toast.fire({
                     icon: 'error',
-                    title: msg
+                    title: json.message
                 })
             }
             else{
@@ -82,34 +90,43 @@ function SignUp() {
                                 <label>Name</label>
                                 <input 
                                     type="text" 
-                                    className="form-control" 
+                                    className={nameError !='' ? "form-control is-invalid" : "form-control"} 
                                     id="name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
                                 />
+                                <div className="invalid-feedback">
+                                    {nameError}
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label>Email address</label>
                                 <input 
                                     type="email" 
-                                    className="form-control" 
+                                    className={emailError !='' ? "form-control is-invalid" : "form-control"} 
                                     id="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
+                                <div className="invalid-feedback">
+                                    {emailError}
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label>Password</label>
                                 <input 
                                     type="password" 
-                                    className="form-control" 
+                                    className={passwordError !='' ? "form-control is-invalid" : "form-control"} 
                                     id="exampleInputPassword1" 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
+                                <div className="invalid-feedback">
+                                    {passwordError}
+                                </div>
                             </div>
                             <div className="form-group form-check">
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
