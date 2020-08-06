@@ -42,7 +42,6 @@ function SignIn() {
             })
         }).then((response) => response.json())
         .then((json) => {
-            console.log(json.message)
             if(json.message == 'E'){
                 Toast.fire({
                     icon: 'error',
@@ -52,19 +51,16 @@ function SignIn() {
             else{
                 userLogin(json.message)
                 history.push("/")
+                let msg = "Welcome " + json.message.name
                 Toast.fire({
                     icon: 'success',
-                    title: 'Welcome User'
+                    title: msg
                 })
             }
         })
         .catch((error) => {
             console.error(error);
         });
-        // userLogin()
-        // console.log(email, password)
-        // history.push("/")
-        
     }
 
     return (
