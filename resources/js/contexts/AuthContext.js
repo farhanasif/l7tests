@@ -9,11 +9,11 @@ const AuthContextProvider = (props) => {
   const [user, setUser] = useState(localStorage.getItem('user') || '');
   console.log(isAuthenticated)
 
-  const userLogin = () => {
+  const userLogin = (data) => {
     localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('user', 'Jimmy');
+    localStorage.setItem('user',data.name);
     setIsAuthenticated('true');
-    setUser('Jimmy')
+    setUser(data.name)
   }
 
 

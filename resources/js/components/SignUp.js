@@ -10,19 +10,19 @@ function SignUp() {
 
                         <div className="card-body">
                         <form>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Full Name</label>
-                            <input type="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <div className="form-group">
+                            <label>Full Name</label>
+                            <input type="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <div className="form-group">
+                            <label>Email address</label>
+                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" />
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="password" className="form-control" id="exampleInputPassword1" />
                         </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
+                        <button type="submit" className="btn btn-primary">Register</button>
                         </form>
                         </div>
                     </div>
