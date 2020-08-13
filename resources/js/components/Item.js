@@ -52,7 +52,14 @@ export default function Item () {
         },
         {
             dataField: 'category',
-            text: 'Item Category'
+            text: 'Item Category',
+            formatter: (cellcontent, row) => {
+                return (
+                    <h5><span className="badge badge-warning">
+                        {row.category}
+                    </span></h5>
+                )
+            }
         },
         {
             dataField: 'created_at',
